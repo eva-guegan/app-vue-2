@@ -1,56 +1,60 @@
 <template>
-  <div class="home" id="main">
-    <HelloWorld msg="Choose your country !"/>
+  <div id="main">
+    <h1>Choose your country !</h1>
     <br />
-    <!-- Faire une barre de recherche qui déclenche une requête vers l'api avec différents critères
-    - Une page à côté ?
-    - faire une recherche rapide par nom de pays puis un btn recherche avancé
-    -->
+    <!-- Bonus : Faire une recherche avancé -->
+    <country-search @searchCountryByName="displayCountries"/>
 
-    <div class="card-deck justify-content-center">
-      <div v-for="event in events">
-        <div class="card" style="width: 30rem;">
-          <img :src="event.flag" class="card-img-top" alt="flag">
-          <div class="card-body">
-            <h5 class="card-title">{{ event.name }}</h5>
-            <p class="card-text">
-              Capitale : {{ event.capital }} <br />
-              Region : {{ event.region }} <br />
-              Population : {{ event.population }} <br />
-              Langage natif : {{ event.languages }}
-            </p>
-            <a href="#" class="btn btn-primary">Détail</a>
-            <!-- Voir pour faire une modal de détail via un component comme HelloWorld -->
-          </div>
-        </div>
+    <b-card-group deck class="justify-content-center">
+      <div v-for="country in countries">
+        <b-card :title="country.translations.fr" :img-src="country.flag" img-alt="Flag" style="max-width: 30rem;">
+          <b-card-text>
+            - Capitale : {{ country.capital }} <br />
+            - Region : {{ country.region }} <br />
+            - Population : {{ country.population }} <br />
+            - Nom des habitants :
+
+            <b-list-group v-for="language in country.languages">
+              <b-list-group-item>{{ language.name }}</b-list-group-item>
+            </b-list-group>
+
+          </b-card-text>
+          <b-button href="#" variant="primary">Détail</b-button>
+          <!-- Une page de détail -->
+          <!-- Bonus : favori -->
+        </b-card>
+        <br />
       </div>
-    </div>
+    </b-card-group>
 
   </div>
 </template>
 
 <script>
   // @ is an alias to /src
-  import HelloWorld from '@/components/HelloWorld.vue'
-  import axios from "axios";
+  import CountrySearch from "@/components/CountrySearch.vue";
 
   export default {
     name: 'Home',
     components: {
-      HelloWorld
+      CountrySearch
     },
     data() {
       return {
-        events: []
+        countries: []
       }
     },
     beforeCreate() {
-      axios
+      this.axios
           .get('https://restcountries.eu/rest/v2/all')
           .then(res => {
-            this.events = res.data
-            console.log(res.data)
+            this.countries = res.data
           })
     },
-  };
+    methods:{
+      displayCountries(countries) {
+        this.countries = countries;
+      }
+    }
+  }
 </script>
