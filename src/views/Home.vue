@@ -7,21 +7,18 @@
 
     <b-card-group deck class="justify-content-center">
       <div v-for="country in countries">
-        <b-card :title="country.translations.fr" :img-src="country.flag" img-alt="Flag" style="max-width: 30rem;">
+        <b-card :title="country.name" :img-src="country.flag" img-alt="Flag" style="max-width: 30rem;">
           <b-card-text>
-            - Capitale : {{ country.capital }} <br />
+            - Capital : {{ country.capital }} <br />
             - Region : {{ country.region }} <br />
             - Population : {{ country.population }} <br />
-            - Nom des habitants :
-
+            - Spoken languages :
             <b-list-group v-for="language in country.languages">
               <b-list-group-item>{{ language.name }}</b-list-group-item>
             </b-list-group>
 
           </b-card-text>
-          <b-button href="#" variant="primary">Détail</b-button>
-          <!-- Une page de détail -->
-          <!-- Bonus : favori -->
+          <router-link :to="'country/' + country.name">Détail</router-link>
         </b-card>
         <br />
       </div>
@@ -49,6 +46,7 @@
           .get('https://restcountries.eu/rest/v2/all')
           .then(res => {
             this.countries = res.data
+            console.log(this.countries);
           })
     },
     methods:{

@@ -18,6 +18,10 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  //data() return api:'urlApi'
+  // data() {
+  //   return {
+  //     api: 'https://pokeapi.co/api/v2/pokemon/'
+  //   }
+  // },
   render: h => h(App)
 }).$mount('#app')
