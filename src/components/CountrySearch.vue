@@ -22,7 +22,7 @@ export default {
   methods:{
     findCountryByName() {
       this.axios
-          .get('https://restcountries.eu/rest/v2/name/' + this.countryName)
+          .get(this.$root.api + "name/" + this.countryName)
           .then((response) => {
             this.results = response.data;
 

@@ -43,7 +43,7 @@
     },
     beforeCreate() {
       this.axios
-          .get('https://restcountries.eu/rest/v2/all')
+          .get(this.$root.api + 'all')
           .then(res => {
             this.countries = res.data
             console.log(this.countries);
